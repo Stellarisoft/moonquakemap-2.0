@@ -1,0 +1,8 @@
+.label {
+    background-color: transparent; /* Fondo transparente */
+    color: white;
+    padding: 4px;
+    border-radius: 4px;
+    font-size: 200px;
+    text-align: center;
+  }
