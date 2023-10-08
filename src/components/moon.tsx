@@ -12,7 +12,7 @@ const Moon: React.FC = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  const renderer = new THREE.WebGLRenderer();
+  const renderer = new THREE.WebGLRenderer({antialias:true});
   let controls: OrbitControls | null = null; // Declaramos los controles como variable externa
 
   // Variable para controlar la posición Z de la cámara
@@ -82,7 +82,23 @@ const Moon: React.FC = () => {
       renderer.setSize(window.innerWidth, window.innerHeight);
 
       // Cargar el modelo .glb
-      const loader = new GLTFLoader();
+      const loadingManager = new THREE.LoadingManager();
+
+      const progressBar = document.getElementById('progress-bar') as HTMLInputElement;
+
+      loadingManager.onProgress = function(url, loaded, total){
+        progressBar.value = (loaded / total * 100).toString();
+      }
+
+      const progressBarContainer = document.querySelector('.progress-bar-container') as HTMLInputElement;
+
+      loadingManager.onLoad = function(){
+        progressBarContainer.style.display = 'none';
+      }
+
+
+
+      const loader = new GLTFLoader(loadingManager);
       loader.load('/src/assets/moon.glb', (gltf) => {
         const model = gltf.scene;
         scene.add(model);
