@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -12,19 +12,36 @@ const Moon: React.FC = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  const renderer = new THREE.WebGLRenderer({antialias:true}{antialias: true});
+  const renderer = new THREE.WebGLRenderer({antialias: true});
   let controls: OrbitControls | null = null; // Declaramos los controles como variable externa
 
   // Variable para controlar la posición Z de la cámara
   const cameraZPosition = 25;
 
+  const [minDate, setMinDate] = useState<number>(-14256000)
+  const [maxDate, setMaxDate] = useState<number>(244512000)
+
   useEffect(() => {
+    document.getElementById("minDate").addEventListener("mouseup", function () {
+      setMinDate(this.value)
+    });
+    document.getElementById("maxDate").addEventListener("mouseup", function () {
+      setMaxDate(this.value)
+    });
+
     type station = {
       station: string,
       lat: number,
       long: number
     }
-    type sm_ai = {
+    type sm = {
+      type: string,
+      date: number,
+      lat: number,
+      long: number,
+      mag: number
+    }
+    type ai = {
       type: string,
       year: number,
       day: number,
@@ -37,20 +54,15 @@ const Moon: React.FC = () => {
     }
     type dm = {
       type: string,
-      year: number,
-      month: number,
-      day: number,
-      h: number,
-      m: number,
-      s: number,
+      date: number,
       lat: number,
       long: number,
       depth: number
     }
 
     let stations: station[]
-    let sm: sm_ai[]
-    let ai: sm_ai[]
+    let sm: sm[]
+    let ai: ai[]
     let dm: dm[]
 
     const fetch_data = async () => {
@@ -195,7 +207,7 @@ const Moon: React.FC = () => {
         scene.add(stations_coors);
 
         // Renders shallow moonquakes (SM) and artificial impacts (AI).
-        const sm_coors = new THREE.Group();
+        let sm_coors = [] 
         for (let i = 0; i < sm.length; i++) {
           const coorGeo = new THREE.SphereGeometry(0.1, 10, 10);
           const coorMaterial = new THREE.MeshBasicMaterial({ color: 0xFEAB03 });
@@ -203,12 +215,20 @@ const Moon: React.FC = () => {
           const r = 9.98
           const smPos: number[] = to_xyz(r, sm[i].lat, sm[i].long);
           sm_coor.position.set(smPos[0], smPos[1], smPos[2])
-          sm_coors.add(sm_coor)
+          sm_coor.visible = sm[i].date >= minDate && sm[i].date <= maxDate
+          sm_coors.push(sm_coor)
         }
-        sm_coors.visible = true;
-        document.getElementById("DMToggle").addEventListener("click", function () {
-          sm_coors.visible = !sm_coors.visible;
+
+        const sm_coors_group = new THREE.Group();
+        for (let i = 0; i < sm_coors.length; i++) {
+          sm_coors_group.add(sm_coors[i])
+        }
+        sm_coors_group.visible = true;
+        document.getElementById("SM").addEventListener("click", function () {
+          sm_coors_group.visible = !sm_coors_group.visible;
         });
+
+        
         scene.add(sm_coors);
 
         const ai_coors = new THREE.Group();
@@ -222,7 +242,7 @@ const Moon: React.FC = () => {
           ai_coors.add(ai_coor)
         }
         ai_coors.visible = true;
-        document.getElementById("DMToggle").addEventListener("click", function () {
+        document.getElementById("AI").addEventListener("click", function () {
           ai_coors.visible = !ai_coors.visible;
         });
         scene.add(ai_coors);
