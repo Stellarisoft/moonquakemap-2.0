@@ -93,8 +93,13 @@ const Moon: React.FC = () => {
       const progressBarContainer = document.querySelector('.progress-bar-container') as HTMLInputElement;
 
       loadingManager.onLoad = function(){
-        progressBarContainer.style.display = 'none';
+        progressBarContainer.classList.add('hidden');
+        setTimeout(() => {
+          progressBarContainer.classList.remove('hidden');
+          progressBarContainer.style.display = 'none';
+        }, 2000);
       }
+
 
 
 
@@ -113,6 +118,8 @@ const Moon: React.FC = () => {
         // Establecer límites de distancia de zoom
         controls.minDistance = 12; // Establece la distancia mínima
         controls.maxDistance = 50; // Establece la distancia máxima
+
+        controls.enablePan = false;
 
         // Agregar una luz direccional con sombras
         const directionalLight = new THREE.DirectionalLight(0xffffff, 8); // Color blanco y intensidad
@@ -172,6 +179,7 @@ const Moon: React.FC = () => {
         });
         const latLongMesh = new THREE.LineSegments(g, m);
         latLongMesh.rotateY(deg_to_rad(-90));
+        latLongMesh.visible = false;
         document.getElementById("LatLongButton").addEventListener("click", function () {
           latLongMesh.visible = !latLongMesh.visible;
         });
@@ -188,7 +196,7 @@ const Moon: React.FC = () => {
           station_coor.position.set(stationPos[0], stationPos[1], stationPos[2])
           stations_coors.add(station_coor)
         }
-        stations_coors.visible = true;
+        stations_coors.visible = false;
         document.getElementById("Stations").addEventListener("click", function () {
           stations_coors.visible = !stations_coors.visible;
         });

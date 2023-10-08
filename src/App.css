@@ -1,102 +1,268 @@
-.title h1{
-    position: absolute;
-    top: 20px;
-    left: 20px; 
-    color: #d9d9d9; 
-    font-weight: 400;
-    font-size: 1.2rem;
-    user-select: none;
+.title h1 {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: #d9d9d9;
+  font-weight: 400;
+  font-size: 1.2rem;
+  user-select: none;
 }
 
 .logo_app {
-    position: absolute;
-    top: 20px;
-    right: 20px; 
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  user-select: none;
+}
+
+.contenedor_principal {
+  left: 20px;
+  margin-top: 60px;
+  position: absolute;
+  color: #d9d9d9;
+}
+.mision {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden; /* Oculta cualquier contenido que exceda la altura máxima */
+  transition: max-height 0.5s ease, opacity 0.5s ease; /* Agrega una transición suave */
+  cursor: pointer;
+  margin-top: 10px;
+  padding: 10px 20px; /* Ajusta el tamaño del elemento */
+  background-color: rgb(34, 34, 34, 0.8);
+  border-radius: 3px; /* Agrega bordes redondos */
+  user-select: none;
+  
+
+}
+
+.mostrar_misiones {
+  cursor: pointer;
+  transition: color 0.3s ease, background-color 0.3s ease; /* Agrega transiciones suaves */
+  background-color: rgb(34, 34, 34, 0.8);
+  border-radius: 3px; /* Agrega bordes redondos */
+  display: inline-block; /* Para que el elemento respete el tamaño del contenido */
+  user-select: none;
+  border-radius: 5px;
+
+
+}
+
+.mostrar_misiones p {
+    padding: 10px 20px; /* Ajusta el tamaño del elemento */
+    transition: background-color 0.3s, color 0.3s;
     user-select: none;
+
+
+}
+
+.mostrar_misiones p:hover {
+    background-color: rgb(
+      48,
+      48,
+      48,
+      0.8
+    ); /* Cambia el color de fondo al pasar el mouse */
+    border-radius: 5px;
+
+}
+
+
+.mostrar_misiones:hover {
+  color: white; /* Cambia el color al pasar el mouse */
+}
+/* Aplica la clase "show" para mostrar las misiones */
+.mision.show {
+  max-height: 200px; /* Establece una altura máxima para mostrar las misiones */
+  opacity: 1; /* Cambia la opacidad para mostrar las misiones */
+  
 }
 
 .logo_app img {
-    width: 4rem;
-    user-select: none;
+  width: 4rem;
+  user-select: none;
 }
 
+@media (max-width: 768px) {
+    .logo_app img {
+      width: 2rem;
+    }
+  }
+
 .controlador {
-    position: absolute;
-    cursor: pointer;
-    bottom: 100px;
-    right: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    font-size: 4px;
+  position: absolute;
+  cursor: pointer;
+  bottom: 100px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 4px;
+  user-select: none;
 }
 
 .controlador div {
-    width: 30px; /* Tamaño del cuadrado */
-    height: 30px; /* Tamaño del cuadrado */
-    margin-top: 5px; /* Espacio superior entre los elementos */
-    background-color: rgb(34, 34, 34, 0.8); /* Fondo rojo */
-    border-radius: 3px; /* Borde redondeado del cuadrado */
-    display: flex;
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido */
-    color: #d9d9d9; /* Color del texto */
-    transition: background-color 0.3s, color 0.3s; /* Transiciones para color de fondo y texto */
+  width: 30px; /* Tamaño del cuadrado */
+  height: 30px; /* Tamaño del cuadrado */
+  margin-top: 5px; /* Espacio superior entre los elementos */
+  background-color: rgb(34, 34, 34, 0.8);
+  border-radius: 3px; /* Borde redondeado del cuadrado */
+  display: flex;
+  justify-content: center; /* Centra horizontalmente el contenido */
+  align-items: center; /* Centra verticalmente el contenido */
+  color: #d9d9d9; /* Color del texto */
+  transition: background-color 0.3s, color 0.3s;
+  user-select: none; /* Transiciones para color de fondo y texto */
 }
 
-.controlador div:hover {
-    background-color: rgb(48, 48, 48, 0.8); /* Cambia el color de fondo al pasar el mouse */
-    color: white; /* Cambia el color del texto al pasar el mouse */
-}
-
-.progress-bar-container {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 1);
+.modal {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-  }
-  
-.logo{
-    width: 12rem;
-    padding-bottom: 50px;
-}
-  #progress-bar {
-    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1;
   }
 
-  @keyframes movePill {
-    0% {
-        left: 0;
+  @media (min-width: 768px) {
+    .modal-info {
+      display: flex;
+      flex-direction: row;
+      width: 50em;
     }
-    50% {
-        left: 50%;
+  }
+  
+  /* Estilos para dispositivos móviles (menor a 768px) */
+  @media (max-width: 767px) {
+    .modal-info {
+      display: flex;
+      flex-direction: column;
+      width: 20em;
     }
-    100% {
-        left: 100%;
-    }
+  }
+
+  .modal-info div {
+    padding: 0.2em;
+  }
+  
+  .modal-content {
+    color: #d9d9d9;
+    background-color: #000000;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px #ffffff; /* Agrega el box-shadow blanco */
+    position: relative;
+  }
+  
+  .close-button {
+    color: #d9d9d9;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+.controlador div:hover {
+  background-color: rgb(
+    48,
+    48,
+    48,
+    0.8
+  ); /* Cambia el color de fondo al pasar el mouse */
+  color: white; /* Cambia el color del texto al pasar el mouse */
+}
+
+/* Estilo personalizado para el tooltip */
+.controlador-item::before {
+    content: attr(title); /* Utiliza el atributo title como contenido del tooltip */
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    position: absolute;
+    opacity: 0; /* Inicialmente, el tooltip es invisible */
+    transition: opacity 0.3s ease-in-out; /* Agrega una transición de opacidad */
+    bottom: calc(100% + 5px); /* Posición por debajo del elemento padre */
+    left: 32px; /* Centra el tooltip horizontalmente */
+    transform: translateX(-100%);
+    white-space: nowrap;
+    font-size: 14px; /* Cambia el tamaño de fuente según tus preferencias */
+  }
+  
+  /* Muestra el tooltip cuando se pasa el cursor sobre el elemento */
+  .controlador-item:hover::before {
+    opacity: 1;
+  }
+.progress-bar-container {
+  opacity: 1; /* Inicialmente visible */
+  visibility: visible; /* Inicialmente visible */
+  transition: opacity 1.5s ease, visibility 1.5s ease; /* Transiciones suaves */
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.progress-bar-container.hidden {
+  opacity: 0; /* Cambia la opacidad a 0 para ocultar */
+  visibility: hidden; /* Cambia la visibilidad a oculto */
+}
+
+.auxiliarText {
+  position: absolute;
+  color: white; /* Cambia el color del texto al pasar el mouse */
+  padding-top: 20rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  width: 12rem;
+  padding-bottom: 50px;
+}
+#progress-bar {
+  display: none;
+}
+
+@keyframes movePill {
+  0% {
+    left: 0;
+  }
+  50% {
+    left: 50%;
+  }
+  100% {
+    left: 100%;
+  }
 }
 
 #pill-container {
-    width: 60%;
-    height: 5px;
-    background-color: gray; /* Color de fondo del contenedor */
-    position: relative;
-    overflow: hidden; /* Para ocultar el desbordamiento del círculo */
+  width: 60%;
+  height: 5px;
+  background-color: gray; /* Color de fondo del contenedor */
+  position: relative;
+  overflow: hidden; /* Para ocultar el desbordamiento del círculo */
 }
 
 #pill {
-    width: 98%; /* Diámetro del círculo */
-    height: 5px; /* Diámetro del círculo */
-    background-color: white; /* Color del círculo *//* Hace que el círculo tenga forma de píldora */
-    position: absolute;
-    top: 0;
-    left: -50;
-    animation: movePill 1s linear infinite; /* Animación de movimiento */
+  width: 98%; /* Diámetro del círculo */
+  height: 5px; /* Diámetro del círculo */
+  background-color: white; /* Color del círculo */ /* Hace que el círculo tenga forma de píldora */
+  position: absolute;
+  top: 0;
+  left: -50;
+  animation: movePill 1s linear infinite; /* Animación de movimiento */
 }
