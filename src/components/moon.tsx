@@ -24,7 +24,14 @@ const Moon: React.FC = () => {
       lat: number,
       long: number
     }
-    type sm_ai = {
+    type sm = {
+      type: string,
+      date:number,
+      lat: number,
+      long: number,
+      mag: number
+    }
+    type ai = {
       type: string,
       year: number,
       day: number,
@@ -37,20 +44,15 @@ const Moon: React.FC = () => {
     }
     type dm = {
       type: string,
-      year: number,
-      month: number,
-      day: number,
-      h: number,
-      m: number,
-      s: number,
+      date: number,
       lat: number,
       long: number,
       depth: number
     }
 
     let stations: station[]
-    let sm: sm_ai[]
-    let ai: sm_ai[]
+    let sm: sm[]
+    let ai: ai[]
     let dm: dm[]
 
     const fetch_data = async () => {
