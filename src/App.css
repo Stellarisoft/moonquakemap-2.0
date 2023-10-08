@@ -5,16 +5,19 @@
     color: #d9d9d9; 
     font-weight: 400;
     font-size: 1.2rem;
+    user-select: none;
 }
 
 .logo_app {
     position: absolute;
     top: 20px;
     right: 20px; 
+    user-select: none;
 }
 
 .logo_app img {
     width: 4rem;
+    user-select: none;
 }
 
 .controlador {
