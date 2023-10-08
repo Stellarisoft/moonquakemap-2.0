@@ -190,6 +190,22 @@ function App() {
           <Disc size={16} />
         </div>
         <div
+          id="SMToggle"
+          className="controlador-item"
+          onClick={handleItemClick}
+          title="Deep moon quake"
+        >
+          <Disc size={16} />
+        </div>
+        <div
+          id="AIToggle"
+          className="controlador-item"
+          onClick={handleItemClick}
+          title="Deep moon quake"
+        >
+          <Disc size={16} />
+        </div>
+        <div
           id="Stations"
           className="controlador-item"
           onClick={handleItemClick}

@@ -216,7 +216,7 @@ const Moon: React.FC = () => {
           sm_coors.add(sm_coor)
         }
         sm_coors.visible = true;
-        document.getElementById("DMToggle").addEventListener("click", function () {
+        document.getElementById("SMToggle").addEventListener("click", function () {
           sm_coors.visible = !sm_coors.visible;
         });
         scene.add(sm_coors);
@@ -232,7 +232,7 @@ const Moon: React.FC = () => {
           ai_coors.add(ai_coor)
         }
         ai_coors.visible = true;
-        document.getElementById("DMToggle").addEventListener("click", function () {
+        document.getElementById("AIToggle").addEventListener("click", function () {
           ai_coors.visible = !ai_coors.visible;
         });
         scene.add(ai_coors);
