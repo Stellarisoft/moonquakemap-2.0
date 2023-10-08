@@ -12,7 +12,7 @@ const Moon: React.FC = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  const renderer = new THREE.WebGLRenderer({antialias:true}{antialias: true});
+  const renderer = new THREE.WebGLRenderer({antialias:true});
   let controls: OrbitControls | null = null; // Declaramos los controles como variable externa
 
   // Variable para controlar la posición Z de la cámara
