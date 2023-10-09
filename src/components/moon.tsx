@@ -61,10 +61,14 @@ const Moon: React.FC = () => {
         .then((data) => {
           stations = data.stations
         });
-      await fetch(`https://moonquakemap-2-0-backend.vercel.app/data/normal`)
+      await fetch(`https://moonquakemap-2-0-backend.vercel.app/data/sm`)
         .then(res => res.json())
         .then((data) => {
           sm = data.sm
+        });
+      await fetch(`https://moonquakemap-2-0-backend.vercel.app/data/ai`)
+        .then(res => res.json())
+        .then((data) => {
           ai = data.ai
         });
       await fetch(`https://moonquakemap-2-0-backend.vercel.app/data/dm`)
