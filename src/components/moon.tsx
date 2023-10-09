@@ -108,7 +108,8 @@ const Moon: React.FC = () => {
       const loader = new GLTFLoader(loadingManager);
       loader.load('/src/assets/moon.glb', (gltf) => {
         const model = gltf.scene;
-        scene.add(model);
+        const scene_group = new THREE.Group
+        scene_group.add(model)
 
         // Configurar la cámara
         camera.position.z = cameraZPosition;
@@ -127,7 +128,7 @@ const Moon: React.FC = () => {
         const directionalLight = new THREE.DirectionalLight(0xffffff, 8); // Color blanco y intensidad
         directionalLight.position.set(0, 0, 40)// Posición de la luz
         directionalLight.castShadow = true; // Habilitar sombras
-        scene.add(directionalLight);
+        scene_group.add(directionalLight);
 
         // Configurar sombras en el renderizador
         renderer.shadowMap.enabled = true;
@@ -146,7 +147,7 @@ const Moon: React.FC = () => {
 
         // Point to the origin (0, 0).
         const originGeo = new THREE.SphereGeometry(0.1, 10, 10);
-        const originMaterial = new THREE.MeshBasicMaterial({ color: 0x0077B6 });
+        const originMaterial = new THREE.MeshBasicMaterial({ color: 0x48CAE4 });
         originMaterial.transparent = true;
         originMaterial.opacity = 1
         document.getElementById("DMToggle").addEventListener("click", function () {
@@ -160,10 +161,11 @@ const Moon: React.FC = () => {
         const r = 9.98
         const originPos: number[] = to_xyz(r, 0, 0);
         origin.position.set(originPos[0], originPos[1], originPos[2])
+        origin.visible = false;
         document.getElementById("LatLongButton").addEventListener("click", function () {
           origin.visible = !origin.visible;
         });
-        scene.add(origin);
+        scene_group.add(origin);
 
 
         // Lat and Long mesh
@@ -185,7 +187,7 @@ const Moon: React.FC = () => {
         document.getElementById("LatLongButton").addEventListener("click", function () {
           latLongMesh.visible = !latLongMesh.visible;
         });
-        scene.add(latLongMesh);
+        scene_group.add(latLongMesh);
 
         // Renders the stations.
         const stations_coors = new THREE.Group();
@@ -202,7 +204,7 @@ const Moon: React.FC = () => {
         document.getElementById("Stations").addEventListener("click", function () {
           stations_coors.visible = !stations_coors.visible;
         });
-        scene.add(stations_coors);
+        scene_group.add(stations_coors);
 
         // Renders shallow moonquakes (SM) and artificial impacts (AI).
         const sm_coors = new THREE.Group();
@@ -215,11 +217,11 @@ const Moon: React.FC = () => {
           sm_coor.position.set(smPos[0], smPos[1], smPos[2])
           sm_coors.add(sm_coor)
         }
-        sm_coors.visible = true;
+        sm_coors.visible = false;
         document.getElementById("SMToggle").addEventListener("click", function () {
           sm_coors.visible = !sm_coors.visible;
         });
-        scene.add(sm_coors);
+        scene_group.add(sm_coors);
 
         const ai_coors = new THREE.Group();
         for (let i = 0; i < ai.length; i++) {
@@ -231,11 +233,11 @@ const Moon: React.FC = () => {
           ai_coor.position.set(aiPos[0], aiPos[1], aiPos[2])
           ai_coors.add(ai_coor)
         }
-        ai_coors.visible = true;
+        ai_coors.visible = false;
         document.getElementById("AIToggle").addEventListener("click", function () {
           ai_coors.visible = !ai_coors.visible;
         });
-        scene.add(ai_coors);
+        scene_group.add(ai_coors);
 
         // Renders deep moonquakes (DM) in DM mode.
         const dm_coors = new THREE.Group();
@@ -252,7 +254,7 @@ const Moon: React.FC = () => {
         document.getElementById("DMToggle").addEventListener("click", function () {
           dm_coors.visible = !dm_coors.visible;
         });
-        scene.add(dm_coors);
+        scene_group.add(dm_coors);
 
         // Renders mantle mesh
         const mantleGeo = new THREE.SphereGeometry(3.3786, 60, 30);
@@ -262,7 +264,7 @@ const Moon: React.FC = () => {
         mantleMaterial.opacity = 0.4;
         const mantle = new THREE.LineSegments(mantleGeo, mantleMaterial);
         mantle.rotateY(deg_to_rad(-90));
-        scene.add(mantle);
+        scene_group.add(mantle);
 
         // Redners moon's nucleus in DM mode.
         const nucleusGeo = new THREE.SphereGeometry(2500/1241, 60, 60);
@@ -272,10 +274,12 @@ const Moon: React.FC = () => {
         nucleus.castShadow = true;
         nucleus.receiveShadow = true;
         nucleus.visible = true
-        scene.add(nucleus)
+        scene_group.add(nucleus)
 
         // Actualizar los controles
         controls.update();
+
+        scene.add(scene_group);
 
         // Renderizar la escena
         const animate = () => {
@@ -291,7 +295,7 @@ const Moon: React.FC = () => {
             controls.update(); // Actualizar los controles en cada cuadro
           }
 
-          // model.rotation.y += 0.001;
+          scene_group.rotation.y += 0.001;
 
           renderer.render(scene, camera);
         };

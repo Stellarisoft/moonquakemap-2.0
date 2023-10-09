@@ -3,7 +3,7 @@ import Moon from "./components/moon";
 import Apollo11 from "./components/apollo11";
 import Apollo16 from "./components/apollo16";
 import "./App.css";
-import { Satellite, Disc, Globe, Sliders } from "lucide-react";
+import { Satellite, Disc, Globe, Sliders, Rocket, Activity } from "lucide-react";
 import StellarisoftImage from "./assets/stellarisoft.png";
 
 // Define componentes para cada misión
@@ -185,7 +185,7 @@ function App() {
           id="DMToggle"
           className="controlador-item"
           onClick={handleItemClick}
-          title="Deep moon quake"
+          title="Deep moonquake"
         >
           <Disc size={16} />
         </div>
@@ -193,17 +193,17 @@ function App() {
           id="SMToggle"
           className="controlador-item"
           onClick={handleItemClick}
-          title="Deep moon quake"
+          title="Shallow moonquake"
         >
-          <Disc size={16} />
+          <Activity size={16} />
         </div>
         <div
           id="AIToggle"
           className="controlador-item"
           onClick={handleItemClick}
-          title="Deep moon quake"
+          title="Artificial impacts"
         >
-          <Disc size={16} />
+          <Rocket size={16} />
         </div>
         <div
           id="Stations"
