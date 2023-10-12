@@ -5,6 +5,7 @@ import Apollo16 from "./components/apollo16";
 import "./App.css";
 import { Satellite, Disc, Globe, Sliders, Rocket, Activity } from "lucide-react";
 import StellarisoftImage from "./assets/stellarisoft.png";
+import { info_attribute, station, sm, ai, dm } from "./util/types";
 
 // Define componentes para cada misión
 const MissionInfo1 = () => (
@@ -41,13 +42,13 @@ const MissionInfo4 = () => (
 
 const MissionInfo5 = () => (
   <div className="modal-info">
-  <div>
-    <Apollo16 />
+    <div>
+      <Apollo16 />
+    </div>
+    <div>
+      <p>The Apollo 16 Passive Seismic Experiment was a seismometer that studied lunar earthquakes and the internal structure of the Moon. It recorded more than 10,000 earthquakes and 2,000 meteorite impacts in eight years. The largest impact occurred on the far side of the Moon near Mare Moscoviense. The experiment revealed that the Moon has a small, cold and dry core.</p>
+    </div>
   </div>
-  <div>
-    <p>The Apollo 16 Passive Seismic Experiment was a seismometer that studied lunar earthquakes and the internal structure of the Moon. It recorded more than 10,000 earthquakes and 2,000 meteorite impacts in eight years. The largest impact occurred on the far side of the Moon near Mare Moscoviense. The experiment revealed that the Moon has a small, cold and dry core.</p>
-  </div>
-</div>
 );
 
 function App() {
@@ -58,6 +59,89 @@ function App() {
   const settingsRef = useRef<HTMLDivElement | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedMission, setSelectedMission] = useState<any | null>(null);
+
+  // Data
+  let stations: station[]
+  let sm: sm[]
+  let ai: ai[]
+  let dm: dm[]
+
+  const fetch_data = async () => {
+    console.log("FETCHED from App.tsx")
+    await fetch(`https://moonquakemap-2-0-backend.vercel.app/data/stations`)
+      .then(res => res.json())
+      .then((data) => {
+        stations = data.stations
+      });
+    await fetch(`https://moonquakemap-2-0-backend.vercel.app/data/sm`)
+      .then(res => res.json())
+      .then((data) => {
+        sm = data.sm
+      });
+    await fetch(`https://moonquakemap-2-0-backend.vercel.app/data/ai`)
+      .then(res => res.json())
+      .then((data) => {
+        ai = data.ai
+      });
+    await fetch(`https://moonquakemap-2-0-backend.vercel.app/data/dm`)
+      .then(res => res.json())
+      .then((data) => {
+        dm = data.dm
+      });
+  }
+
+  // For the info display.
+  const [displayInfo, setDisplayInfo] = useState<info_attribute[]>([])
+
+  const resetDisplayInfo = (type: string, id: string) => {
+    if (type == "station") {
+      const attributes: info_attribute[] = []
+      const st: station | undefined = stations.find(station => station.id == id)
+      attributes.push({ tag: "Mission", value: st?.mission })
+        attributes.push({
+          tag: "Start date", value: st?.startYear.toString() + "-" + st?.startMonth.toString() + "-" + st?.startDay.toString()
+        })
+        attributes.push({
+          tag: "End date", value: st?.endYear.toString() + "-" + st?.endMonth.toString() + "-" + st?.endDay.toString()
+        })
+        attributes.push({ tag: "Lat.", value: st?.lat.toString() })
+      attributes.push({ tag: "Long.", value: st?.long.toString() })
+      setDisplayInfo(attributes)
+    } else if (type == "sm") {
+      const attributes: info_attribute[] = []
+      const sm_i: sm | undefined = sm.find(i => i.id == id)
+      attributes.push({ tag: "Type", value: sm_i?.type })
+      attributes.push({
+        tag: "Date", value: sm_i?.year.toString() + "-" + sm_i?.month.toString() + "-" + sm_i?.day.toString() + "  " + sm_i?.h.toString() + ":" + sm_i?.m.toString() + ":" + sm_i?.s.toString()
+      })
+      attributes.push({ tag: "Lat.", value: sm_i?.lat.toString() })
+      attributes.push({ tag: "Long.", value: sm_i?.long.toString() })
+      attributes.push({ tag: "Mag.", value: sm_i?.mag.toString() })
+      setDisplayInfo(attributes)
+    } else if (type == "ai") {
+      const attributes: info_attribute[] = []
+      const ai_i: ai | undefined = ai.find(i => i.id == id)
+      attributes.push({ tag: "Type", value: ai_i?.type })
+      attributes.push({
+        tag: "Date", value: ai_i?.year.toString() + "-" + ai_i?.month.toString() + "-" + ai_i?.day.toString() + "  " + ai_i?.h.toString() + ":" + ai_i?.m.toString() + ":" + ai_i?.s.toString()
+      })
+      attributes.push({ tag: "Lat.", value: ai_i?.lat.toString() })
+      attributes.push({ tag: "Long.", value: ai_i?.long.toString() })
+      attributes.push({ tag: "Mag.", value: ai_i?.mag.toString() })
+      setDisplayInfo(attributes)
+    } else if (type == "dm") {
+      const attributes: info_attribute[] = []
+      const dm_i: dm | undefined = dm.find(i => i.id == id)
+      attributes.push({ tag: "Type", value: dm_i?.type })
+      attributes.push({
+        tag: "Date", value: dm_i?.year.toString() + "-" + dm_i?.month.toString() + "-" + dm_i?.day.toString() + "  " + dm_i?.h.toString() + ":" + dm_i?.m.toString() + ":" + dm_i?.s.toString()
+      })
+      attributes.push({ tag: "Lat.", value: dm_i?.lat.toString() })
+      attributes.push({ tag: "Long.", value: dm_i?.long.toString() })
+      attributes.push({ tag: "Depth", value: dm_i?.depth.toString() })
+      setDisplayInfo(attributes)
+    }
+  }
 
   const missionsData = [
     {
@@ -152,12 +236,21 @@ function App() {
     openMissionModal(missionData);
   };
 
+  fetch_data()
+
   return (
     <>
       <div className="title">
         <h1>VIBRATIO 13 | NEXT GEN</h1>
       </div>
       <div className="contenedor_principal">
+        <div className="selected_info">
+          {
+            displayInfo?.map(attribute => (
+              <p key={attribute.tag}><b>{attribute.tag}: </b>{attribute.value}</p>
+            ))
+          }
+        </div>
         <div className="mostrar_misiones" onClick={handleShowMissionsClick}>
           <p onClick={handleItemClick}>Show missions</p>
         </div>
@@ -250,7 +343,7 @@ function App() {
         </div>
       )}
 
-      <Moon />
+      <Moon resetDisplayInfo={resetDisplayInfo} />
     </>
   );
 }
