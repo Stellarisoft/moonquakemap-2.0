@@ -356,6 +356,30 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
         scene.add(selector_ring);
         selector_ring.visible = false
 
+        document.getElementById("DMToggle").addEventListener("click", function () {
+          if (selector_ring.userData.selectedType == "dm") {
+            selector_ring.visible = !selector_ring.visible
+          }
+        });
+
+        document.getElementById("Stations").addEventListener("click", function () {
+          if (selector_ring.userData.selectedType == "station") {
+            selector_ring.visible = !selector_ring.visible
+          }
+        });
+
+        document.getElementById("SMToggle").addEventListener("click", function () {
+          if (selector_ring.userData.selectedType == "sm") {
+            selector_ring.visible = !selector_ring.visible
+          }
+        });
+
+        document.getElementById("AIToggle").addEventListener("click", function () {
+          if (selector_ring.userData.selectedType == "ai") {
+            selector_ring.visible = !selector_ring.visible
+          }
+        });
+
         const raycaster = new THREE.Raycaster();
         const pointer = new THREE.Vector2();
 
@@ -365,7 +389,7 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
 
           raycaster.setFromCamera(pointer, camera)
           const intersections = raycaster.intersectObjects(scene.children)
-          const clickIntersections = intersections.filter(intersect => intersect.object.userData.clickable)
+          const clickIntersections = intersections.filter(intersect => intersect.object.userData.clickable && intersect.object.visible)
 
           if (clickIntersections.length !== 0) {
             if (clickIntersections[0].object.userData.station) {
@@ -401,6 +425,16 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
 
             selector_ring.rotateY(deg_to_rad(long))
             selector_ring.rotateX((-1) * deg_to_rad(lat))
+
+            if (clickIntersections[0].object.userData.station) {
+              selector_ring.userData.selectedType = "station"
+            } else if (clickIntersections[0].object.userData.sm) {
+              selector_ring.userData.selectedType = "sm"
+            } else if (clickIntersections[0].object.userData.ai) {
+              selector_ring.userData.selectedType = "ai"
+            } else if (clickIntersections[0].object.userData.dm) {
+              selector_ring.userData.selectedType = "dm"
+            }
           }
 
           console.log(clickIntersections)
