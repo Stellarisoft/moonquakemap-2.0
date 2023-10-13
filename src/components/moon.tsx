@@ -101,6 +101,9 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
 
         controls.enablePan = false;
         controls.autoRotate = true;
+        document.getElementById("RotationButton").addEventListener("click", function () {
+          controls.autoRotate = !controls.autoRotate;
+        });
         controls.autoRotateSpeed = 0.15;
 
         // Agregar una luz direccional con sombras

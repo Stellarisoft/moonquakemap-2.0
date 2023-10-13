@@ -3,7 +3,7 @@ import Moon from "./components/moon";
 import Apollo11 from "./components/apollo11";
 import Apollo16 from "./components/apollo16";
 import "./App.css";
-import { Satellite, Disc, Globe, Sliders, Rocket, Activity } from "lucide-react";
+import { Satellite, Disc, Globe, Sliders, Rocket, Activity, RefreshCwOff } from "lucide-react";
 import StellarisoftImage from "./assets/stellarisoft.png";
 import { info_attribute, station, sm, ai, dm } from "./util/types";
 
@@ -266,6 +266,14 @@ function App() {
         <img className="logo" src={StellarisoftImage} alt="Stellarisoft" />
       </div>
       <div className="controlador">
+        <div
+          id="RotationButton"
+          className="controlador-item"
+          onClick={handleItemClick}
+          title="Rotation OFF"
+        >
+          <RefreshCwOff size={16} />
+        </div>
         <div
           id="LatLongButton"
           className="controlador-item"
