@@ -279,6 +279,8 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
         });
 
         // Renders deep moonquakes (DM) in DM mode.
+        let dmVisible = false
+
         for (let i = 0; i < dm.length; i++) {
           const ori_color = 0xcb1111
           const selected_color = 0xf9bbbb
@@ -308,6 +310,7 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
           dm_coor.visible = false
         }
         document.getElementById("DMToggle").addEventListener("click", function () {
+          dmVisible = !dmVisible
           for (const child of scene.children) {
             if (child.userData.dm) { child.visible = !child.visible }
           }
@@ -978,6 +981,8 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
 
 
         // Nucleus and Mantle labels
+        let innerLabelsVisible = false
+
         const nucleusP = document.createElement('p')
         nucleusP.textContent = "Nucleus (~330 km)"
 
@@ -991,9 +996,7 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
         nucleusLabel.userData.label = true
         nucleusLabel.userData.labelLatLong = true
         nucleusLabel.visible = false
-        document.getElementById("DMToggle").addEventListener("click", function () {
-          nucleusLabel.visible = !nucleusLabel.visible
-        })
+        
 
         const mantleP = document.createElement('p')
         mantleP.textContent = "Inner mantle (~480 km)"
@@ -1012,8 +1015,18 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
         mantleLabel.userData.label = true
         mantleLabel.userData.labelLatLong = true
         mantleLabel.visible = false
-        document.getElementById("DMToggle").addEventListener("click", function () {
-          mantleLabel.visible = !mantleLabel.visible
+        
+        const checkInnerLabelsVisibility = () => {
+          nucleusLabel.visible = dmVisible && innerLabelsVisible
+          mantleLabel.visible = dmVisible && innerLabelsVisible
+        }
+
+        document.getElementById("DMLabels").addEventListener("click", async () => {
+          innerLabelsVisible = !innerLabelsVisible
+          checkInnerLabelsVisibility()
+        })
+        document.getElementById("DMToggle").addEventListener("click", async () => {
+          checkInnerLabelsVisibility()
         })
 
         // Selector ring

@@ -3,7 +3,7 @@ import Moon from "./components/moon";
 import Apollo11 from "./components/apollo11";
 import Apollo16 from "./components/apollo16";
 import "./App.css";
-import { Satellite, Disc, Globe, Sliders, Rocket, Activity, RefreshCwOff, DraftingCompass, Map, Waves, Shell, Circle, Minus, Mountain, MountainSnow, TowerControl } from "lucide-react";
+import { Satellite, Disc, Globe, Sliders, Rocket, Activity, RefreshCwOff, DraftingCompass, Map, Waves, Shell, Circle, Minus, Mountain, MountainSnow, TowerControl, CircleEllipsis } from "lucide-react";
 import StellarisoftImage from "./assets/stellarisoft.png";
 import { info_attribute, station, sm, ai, dm } from "./util/types";
 
@@ -442,6 +442,14 @@ function App() {
           title="Lat. & Long."
         >
           <Globe size={16} />
+        </div>
+        <div
+          id="DMLabels"
+          className="controlador-item"
+          onClick={handleItemClick}
+          title="Inner labels"
+        >
+          <CircleEllipsis size={16} />
         </div>
         <div
           id="DMToggle"
