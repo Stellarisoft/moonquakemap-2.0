@@ -34,7 +34,7 @@
   padding: 10px 20px; /* Ajusta el tamaño del elemento */
   background-color: rgb(34, 34, 34, 0.8);
   border-radius: 3px; /* Agrega bordes redondos */
-  user-select: none;
+  pointer-events: none;
 }
 
 .mostrar_misiones {
@@ -77,6 +77,7 @@
   max-height: 200px; /* Establece una altura máxima para mostrar las misiones */
   opacity: 1; /* Cambia la opacidad para mostrar las misiones */
   user-select: all;
+  pointer-events: auto;
 }
 
 .logo_app img {
@@ -238,7 +239,9 @@
     left: 32px; /* Centra el tooltip horizontalmente */
     transform: translateX(-100%);
     white-space: nowrap;
-    font-size: 14px; /* Cambia el tamaño de fuente según tus preferencias */
+    font-size: 14px;
+    pointer-events: none;
+    /* Cambia el tamaño de fuente según tus preferencias */
   }
 
     .controlador-regiones-item::before {
@@ -260,15 +263,19 @@
       transform: translateX(-100%);
       white-space: nowrap;
       font-size: 14px;
+      pointer-events: none;
+      cursor: none;
       /* Cambia el tamaño de fuente según tus preferencias */
     }
   
   /* Muestra el tooltip cuando se pasa el cursor sobre el elemento */
   .controlador-item:hover::before {
     opacity: 1;
+    pointer-events: auto;
   }
   .controlador-regiones-item:hover::before {
     opacity: 1;
+    pointer-events: auto;
   }
 .progress-bar-container {
   opacity: 1; /* Inicialmente visible */

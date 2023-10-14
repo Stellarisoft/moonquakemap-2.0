@@ -312,7 +312,7 @@ function App() {
             ))
           ) : (
               <>
-                <b className="selected_info_placeholder">No event selected</b>
+                <b className="selected_info_placeholder" style={{userSelect: 'none'}}>No event selected</b>
                 <div className="selected_info_placeholder_items">
                   <div className="selected_info_placeholder_icon">
                     <Satellite size={18} />
