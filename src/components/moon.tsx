@@ -21,6 +21,7 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   let controls: OrbitControls | null = null; // Declaramos los controles como variable externa
 
+
   // Variable para controlar la posición Z de la cámara
   const cameraZPosition = 25;
 
@@ -359,6 +360,7 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
         const labelRenderer = new CSS2DRenderer()
         labelRenderer.setSize(window.innerWidth, window.innerHeight)
         labelRenderer.domElement.style.position = 'absolute'
+        labelRenderer.domElement.style.zIndex = '1'
         labelRenderer.domElement.style.top = '0px'
         labelRenderer.domElement.style.pointerEvents = 'none'
         document.body.appendChild(labelRenderer.domElement)
@@ -418,7 +420,7 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
           document.getElementById("LatLongLabelsButton").addEventListener("click", async () => {
             checkLabelVisibility(latNLabel, latLongVisible)
           })
-
+          
           const pN2 = document.createElement('p')
           pN2.textContent = `${lat} N`
 
@@ -442,7 +444,6 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
           document.getElementById("LatLongLabelsButton").addEventListener("click", async () => {
             checkLabelVisibility(latN2Label, latLongVisible)
           })
-
 
           const pS = document.createElement('p')
           pS.textContent = `${lat} S`

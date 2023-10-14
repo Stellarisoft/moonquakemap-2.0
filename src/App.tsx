@@ -337,7 +337,7 @@ function App() {
         </div>
         {missionRefs.map((missionRef, index) => (
           <div key={index} ref={missionRef} className="mision">
-            <p onClick={() => handleMissionClick(index)}>
+            <p id={"modal_" + index} onClick={() => handleMissionClick(index)}>
               Apollo {missionIndexes[index]}
             </p>
           </div>
@@ -511,7 +511,7 @@ function App() {
       {isModalOpen && (
         <div className="modal">
           <div className="modal-content">
-            <span className="close-button" onClick={closeMissionModal}>
+            <span id="close_modal" className="close-button" onClick={closeMissionModal}>
               &times;
             </span>
             <h2>{selectedMission.title}</h2>
@@ -520,7 +520,7 @@ function App() {
         </div>
       )}
 
-      <Moon resetDisplayInfo={resetDisplayInfo} />
+      <Moon resetDisplayInfo={resetDisplayInfo} isModalOpen={isModalOpen} />
     </>
   );
 }
