@@ -101,6 +101,18 @@
   user-select: none;
 }
 
+.controlador-regiones {
+  position: absolute;
+  cursor: pointer;
+  bottom: 100px;
+  right: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 4px;
+  user-select: none;
+}
+
 .controlador div {
   width: 30px; /* Tamaño del cuadrado */
   height: 30px; /* Tamaño del cuadrado */
@@ -113,6 +125,28 @@
   color: #d9d9d9; /* Color del texto */
   transition: background-color 0.3s, color 0.3s;
   user-select: none; /* Transiciones para color de fondo y texto */
+}
+
+.controlador-regiones div {
+  width: 30px;
+  /* Tamaño del cuadrado */
+  height: 30px;
+  /* Tamaño del cuadrado */
+  margin-top: 5px;
+  /* Espacio superior entre los elementos */
+  background-color: rgb(34, 34, 34, 0.8);
+  border-radius: 3px;
+  /* Borde redondeado del cuadrado */
+  display: flex;
+  justify-content: center;
+  /* Centra horizontalmente el contenido */
+  align-items: center;
+  /* Centra verticalmente el contenido */
+  color: #d9d9d9;
+  /* Color del texto */
+  transition: background-color 0.3s, color 0.3s;
+  user-select: none;
+  /* Transiciones para color de fondo y texto */
 }
 
 .modal {
@@ -177,6 +211,16 @@
   color: white; /* Cambia el color del texto al pasar el mouse */
 }
 
+.controlador-regiones div:hover {
+  background-color: rgb(48,
+      48,
+      48,
+      0.8);
+  /* Cambia el color de fondo al pasar el mouse */
+  color: white;
+  /* Cambia el color del texto al pasar el mouse */
+}
+
 /* Estilo personalizado para el tooltip */
 .controlador-item::before {
     content: attr(title); /* Utiliza el atributo title como contenido del tooltip */
@@ -193,9 +237,34 @@
     white-space: nowrap;
     font-size: 14px; /* Cambia el tamaño de fuente según tus preferencias */
   }
+
+    .controlador-regiones-item::before {
+      content: attr(title);
+      /* Utiliza el atributo title como contenido del tooltip */
+      background-color: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      position: absolute;
+      opacity: 0;
+      /* Inicialmente, el tooltip es invisible */
+      transition: opacity 0.3s ease-in-out;
+      /* Agrega una transición de opacidad */
+      bottom: calc(100% + 5px);
+      /* Posición por debajo del elemento padre */
+      left: 32px;
+      /* Centra el tooltip horizontalmente */
+      transform: translateX(-100%);
+      white-space: nowrap;
+      font-size: 14px;
+      /* Cambia el tamaño de fuente según tus preferencias */
+    }
   
   /* Muestra el tooltip cuando se pasa el cursor sobre el elemento */
   .controlador-item:hover::before {
+    opacity: 1;
+  }
+  .controlador-regiones-item:hover::before {
     opacity: 1;
   }
 .progress-bar-container {

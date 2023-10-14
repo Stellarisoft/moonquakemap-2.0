@@ -3,7 +3,7 @@ import Moon from "./components/moon";
 import Apollo11 from "./components/apollo11";
 import Apollo16 from "./components/apollo16";
 import "./App.css";
-import { Satellite, Disc, Globe, Sliders, Rocket, Activity, RefreshCwOff } from "lucide-react";
+import { Satellite, Disc, Globe, Sliders, Rocket, Activity, RefreshCwOff, DraftingCompass, Map, Waves, Shell, Circle, Minus, Mountain, MountainSnow, TowerControl } from "lucide-react";
 import StellarisoftImage from "./assets/stellarisoft.png";
 import { info_attribute, station, sm, ai, dm } from "./util/types";
 
@@ -57,6 +57,7 @@ function App() {
     useRef<HTMLDivElement | null>(null)
   );
   const settingsRef = useRef<HTMLDivElement | null>(null);
+  const settingsRegionesRef = useRef<HTMLDivElement | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedMission, setSelectedMission] = useState<any | null>(null);
 
@@ -205,6 +206,36 @@ function App() {
     handleItemClick(fakeEvent);
   };
 
+  const handleShowSettingsRegionesClick = () => {
+    const controladorRegionesItems = document.querySelectorAll(".controlador-regiones-item");
+
+    controladorRegionesItems.forEach((item) => {
+      const element = item as HTMLElement;
+      if (element !== settingsRegionesRef.current) {
+        if (element.style.visibility === "hidden") {
+          element.style.visibility = "visible";
+        } else {
+          element.style.visibility = "hidden";
+        }
+      }
+    });
+
+    if (settingsRegionesRef.current) {
+      const settingsRegionesButton = settingsRegionesRef.current;
+      if (settingsRegionesButton.style.backgroundColor === "") {
+        settingsRegionesButton.style.backgroundColor = "rgb(34, 34, 34, 0.8)";
+      } else {
+        settingsRegionesButton.style.backgroundColor = "";
+      }
+    }
+
+    const fakeEvent = {
+      currentTarget: settingsRegionesRef.current,
+    } as React.MouseEvent<HTMLDivElement>;
+
+    handleItemClick(fakeEvent);
+  };
+
   const handleItemClick = useMemo(
     () => (event: React.MouseEvent<HTMLDivElement>) => {
       const item = event.currentTarget;
@@ -265,6 +296,78 @@ function App() {
       <div className="logo_app">
         <img className="logo" src={StellarisoftImage} alt="Stellarisoft" />
       </div>
+
+      <div className="controlador-regiones">
+        <div
+          id="MontesToggle"
+          className="controlador-regiones-item"
+          onClick={handleItemClick}
+          title="Montes' labels"
+        >
+          <MountainSnow size={16} />
+        </div>
+        <div
+          id="MonsToggle"
+          className="controlador-regiones-item"
+          onClick={handleItemClick}
+          title="Mons' labels"
+        >
+          <Mountain size={16} />
+        </div>
+        <div
+          id="ValleysToggle"
+          className="controlador-regiones-item"
+          onClick={handleItemClick}
+          title="Valleys' labels"
+        >
+          <Minus size={16} />
+        </div>
+        <div
+          id="CratersToggle"
+          className="controlador-regiones-item"
+          onClick={handleItemClick}
+          title="Craters' labels"
+        >
+          <Circle size={16} />
+        </div>
+        <div
+          id="SinusPalusToggle"
+          className="controlador-regiones-item"
+          onClick={handleItemClick}
+          title="Bays' labels"
+        >
+          <TowerControl size={16} />
+        </div>
+        <div
+          id="LacusToggle"
+          className="controlador-regiones-item"
+          onClick={handleItemClick}
+          title="Lakes' labels"
+        >
+          <Waves size={16} />
+        </div>
+        <div
+          id="MariaToggle"
+          className="controlador-regiones-item"
+          onClick={handleItemClick}
+          title="Seas' labels"
+        >
+          <Shell size={16} />
+        </div>
+        <div
+          id="settings-regiones"
+          className="collapse-controlador-regiones-item"
+          onClick={() => {
+            handleShowSettingsRegionesClick();
+          }}
+          title="Show Regions"
+          ref={settingsRegionesRef}
+        >
+          <Map size={16} />
+        </div>
+      </div>
+
+
       <div className="controlador">
         <div
           id="RotationButton"
@@ -275,10 +378,18 @@ function App() {
           <RefreshCwOff size={16} />
         </div>
         <div
+          id="LatLongLabelsButton"
+          className="controlador-item"
+          onClick={handleItemClick}
+          title="Lat./Long. labels"
+        >
+          <DraftingCompass size={16} />
+        </div>
+        <div
           id="LatLongButton"
           className="controlador-item"
           onClick={handleItemClick}
-          title="Lat and Lon"
+          title="Lat. & Long."
         >
           <Globe size={16} />
         </div>
