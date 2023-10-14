@@ -178,6 +178,7 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
         for (let i = 0; i < stations.length; i++) {
           const ori_color = 0x0065ff
           const selected_color = 0xa5c8ff
+          const edges_color = 0x0050cb
           const coorGeo = new THREE.OctahedronGeometry(0.1, 0);
           const coorMaterial = new THREE.MeshBasicMaterial({ color: ori_color });
           const station_coor = new THREE.Mesh(coorGeo, coorMaterial);
@@ -200,7 +201,11 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
           station_coor.userData.y = stationPos[1]
           station_coor.userData.z = stationPos[2]
           station_coor.position.set(stationPos[0], stationPos[1], stationPos[2])
-          // stations_coors.add(station_coor)
+          const coor_edges = new THREE.LineSegments(
+            new THREE.EdgesGeometry(station_coor.geometry),
+            new THREE.LineBasicMaterial({ color: edges_color, linewidth: 0.5 })
+          );
+          station_coor.add(coor_edges);
           scene.add(station_coor)
           station_coor.visible = false
         }
@@ -238,6 +243,12 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
           sm_coor.rotateX((-1) * deg_to_rad(sm[i].lat))
           scene.add(sm_coor)
           sm_coor.visible = false
+          const coor_edges = new THREE.LineSegments(
+            new THREE.EdgesGeometry(sm_coor.geometry),
+            new THREE.LineBasicMaterial({ color: 0xda9200, linewidth: 0.1 })
+          );
+          coor_edges.userData.outer_edges = true
+          sm_coor.add(coor_edges);
         }
         document.getElementById("SMToggle").addEventListener("click", function () {
           for (const child of scene.children) {
@@ -248,6 +259,7 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
         for (let i = 0; i < ai.length; i++) {
           const ori_color = 0xFB8500
           const selected_color = 0xffd6a9
+          const edges_color = 0xd57100
           const coorGeo = new THREE.OctahedronGeometry(0.1, 0);
           const coorMaterial = new THREE.MeshBasicMaterial({ color: ori_color });
           const ai_coor = new THREE.Mesh(coorGeo, coorMaterial);
@@ -272,6 +284,11 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
           ai_coor.position.set(aiPos[0], aiPos[1], aiPos[2])
           scene.add(ai_coor)
           ai_coor.visible = false
+          const coor_edges = new THREE.LineSegments(
+            new THREE.EdgesGeometry(ai_coor.geometry),
+            new THREE.LineBasicMaterial({ color: edges_color, linewidth: 0.5 })
+          );
+          ai_coor.add(coor_edges);
         }
         document.getElementById("AIToggle").addEventListener("click", function () {
           for (const child of scene.children) {
@@ -285,6 +302,7 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
         for (let i = 0; i < dm.length; i++) {
           const ori_color = 0xcb1111
           const selected_color = 0xf9bbbb
+          const edges_color = 0x9f0b0b
           const coorGeo = new THREE.OctahedronGeometry(0.1, 0);
           const coorMaterial = new THREE.MeshBasicMaterial({ color: ori_color });
           const dm_coor = new THREE.Mesh(coorGeo, coorMaterial);
@@ -309,6 +327,11 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
           dm_coor.position.set(dmPos[0], dmPos[1], dmPos[2])
           scene.add(dm_coor)
           dm_coor.visible = false
+          const coor_edges = new THREE.LineSegments(
+            new THREE.EdgesGeometry(dm_coor.geometry),
+            new THREE.LineBasicMaterial({ color: edges_color, linewidth: 0.5 })
+          );
+          dm_coor.add(coor_edges);
         }
         document.getElementById("DMToggle").addEventListener("click", function () {
           dmVisible = !dmVisible
