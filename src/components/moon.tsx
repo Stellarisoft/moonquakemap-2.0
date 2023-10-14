@@ -570,6 +570,7 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
           checkLabelVisibility(label180, latLongVisible)
         })
 
+
         // Labels for moon regions.
         let maresVisible = false
         let lacusVisible = false
@@ -976,7 +977,44 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
         createMontesRegionLabel("Montes Teneriffe", 47.89, -13.19)
 
 
+        // Nucleus and Mantle labels
+        const nucleusP = document.createElement('p')
+        nucleusP.textContent = "Nucleus (~330 km)"
 
+        const divNucleus = document.createElement('div')
+        divNucleus.appendChild(nucleusP)
+        nucleusP.className = "latLongLabelP"
+        divNucleus.className = "latLongLabelDiv"
+        const nucleusLabel = new CSS2DObject(divNucleus)
+        scene.add(nucleusLabel)
+        nucleusLabel.position.set(0, 0, 0)
+        nucleusLabel.userData.label = true
+        nucleusLabel.userData.labelLatLong = true
+        nucleusLabel.visible = false
+        document.getElementById("DMToggle").addEventListener("click", function () {
+          nucleusLabel.visible = !nucleusLabel.visible
+        })
+
+        const mantleP = document.createElement('p')
+        mantleP.textContent = "Inner mantle (~480 km)"
+
+        const divMantle = document.createElement('div')
+        divMantle.appendChild(mantleP)
+        mantleP.className = "latLongLabelP"
+        divMantle.className = "latLongLabelDiv"
+        const mantleLabel = new CSS2DObject(divMantle)
+        scene.add(mantleLabel)
+        const mantleLabelR = 3.3786
+        const mantleLabelLat = 40
+        const mantleLabelLong = 50
+        const mantleLabelPos = to_xyz(mantleLabelR, mantleLabelLat, mantleLabelLong)
+        mantleLabel.position.set(mantleLabelPos[0], mantleLabelPos[1], mantleLabelPos[2])
+        mantleLabel.userData.label = true
+        mantleLabel.userData.labelLatLong = true
+        mantleLabel.visible = false
+        document.getElementById("DMToggle").addEventListener("click", function () {
+          mantleLabel.visible = !mantleLabel.visible
+        })
 
         // Selector ring
         const ringGeo = new THREE.RingGeometry(0.13, 0.2, 20, 1);

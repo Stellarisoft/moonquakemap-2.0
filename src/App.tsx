@@ -94,6 +94,22 @@ function App() {
   // For the info display.
   const [displayInfo, setDisplayInfo] = useState<info_attribute[]>([])
 
+  const parseLat = (lat: string) => {
+    if (lat.split("")[0] == "-") {
+      return lat.split("-")[1] + "° S"
+    } else {
+      return lat + "° N"
+    }
+  }
+
+  const parseLong = (long: string) => {
+    if (long.split("")[0] == "-") {
+      return long.split("-")[1] + "° W"
+    } else {
+      return long + "° E"
+    }
+  }
+
   const resetDisplayInfo = (type: string, id: string) => {
     if (type == "station") {
       const attributes: info_attribute[] = []
@@ -105,8 +121,8 @@ function App() {
       attributes.push({
         tag: "End date", value: st?.endYear.toString() + "-" + st?.endMonth.toString() + "-" + st?.endDay.toString()
       })
-      attributes.push({ tag: "Lat.", value: st?.lat.toString() })
-      attributes.push({ tag: "Long.", value: st?.long.toString() })
+      attributes.push({ tag: "Lat.", value: parseLat(st?.lat.toString()) })
+      attributes.push({ tag: "Long.", value: parseLong(st?.long.toString()) })
       setDisplayInfo(attributes)
     } else if (type == "sm") {
       const attributes: info_attribute[] = []
@@ -115,8 +131,8 @@ function App() {
       attributes.push({
         tag: "Date", value: sm_i?.year.toString() + "-" + sm_i?.month.toString() + "-" + sm_i?.day.toString() + "  " + sm_i?.h.toString() + ":" + sm_i?.m.toString() + ":" + sm_i?.s.toString()
       })
-      attributes.push({ tag: "Lat.", value: sm_i?.lat.toString() })
-      attributes.push({ tag: "Long.", value: sm_i?.long.toString() })
+      attributes.push({ tag: "Lat.", value: parseLat(sm_i?.lat.toString()) })
+      attributes.push({ tag: "Long.", value: parseLong(sm_i?.long.toString()) })
       attributes.push({ tag: "Mag.", value: sm_i?.mag.toString() })
       setDisplayInfo(attributes)
     } else if (type == "ai") {
@@ -126,8 +142,8 @@ function App() {
       attributes.push({
         tag: "Date", value: ai_i?.year.toString() + "-" + ai_i?.month.toString() + "-" + ai_i?.day.toString() + "  " + ai_i?.h.toString() + ":" + ai_i?.m.toString() + ":" + ai_i?.s.toString()
       })
-      attributes.push({ tag: "Lat.", value: ai_i?.lat.toString() })
-      attributes.push({ tag: "Long.", value: ai_i?.long.toString() })
+      attributes.push({ tag: "Lat.", value: parseLat(ai_i?.lat.toString()) })
+      attributes.push({ tag: "Long.", value: parseLong(ai_i?.long.toString()) })
       attributes.push({ tag: "Mag.", value: ai_i?.mag.toString() })
       setDisplayInfo(attributes)
     } else if (type == "dm") {
@@ -137,9 +153,9 @@ function App() {
       attributes.push({
         tag: "Date", value: dm_i?.year.toString() + "-" + dm_i?.month.toString() + "-" + dm_i?.day.toString() + "  " + dm_i?.h.toString() + ":" + dm_i?.m.toString() + ":" + dm_i?.s.toString()
       })
-      attributes.push({ tag: "Lat.", value: dm_i?.lat.toString() })
-      attributes.push({ tag: "Long.", value: dm_i?.long.toString() })
-      attributes.push({ tag: "Depth", value: dm_i?.depth.toString() })
+      attributes.push({ tag: "Lat.", value: parseLat(dm_i?.lat.toString()) })
+      attributes.push({ tag: "Long.", value: parseLong(dm_i?.long.toString()) })
+      attributes.push({ tag: "Depth", value: dm_i?.depth.toString() + " km" })
       setDisplayInfo(attributes)
     }
   }
