@@ -335,3 +335,37 @@
   left: -50;
   animation: movePill 1s linear infinite; /* Animación de movimiento */
 }
+
+.selected_info {
+  background-color: rgba(41, 41, 41, 0.8);
+  display: flex;
+  flex-direction:column;
+  color: #d9d9d9;
+  padding: 12px;
+  border-radius: 5px;
+  position: absolute;
+  top: 70px;
+  right: 20px;
+  min-height: 75px;
+  min-width: 170px;
+}
+
+.selected_info_placeholder {
+  margin: auto;
+}
+
+.selected_info_placeholder_items {
+  margin: 5px auto auto auto;
+  display: flex;
+}
+
+.selected_info_placeholder_icon {
+  width: 16px;
+  margin: 0 5px 0 5px;
+}
+
+.selected_info_header {
+  margin-bottom: 5px;
+  font-size: 18px;
+  user-select: none;
+}

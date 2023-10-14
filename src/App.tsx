@@ -290,14 +290,48 @@ function App() {
       <div className="title">
         <h1>VIBRATIO 13 | NEXT GEN</h1>
       </div>
-      <div className="contenedor_principal">
-        <div className="selected_info">
-          {
+      <div className="selected_info">
+        {
+          displayInfo.length != 0 ? (
+            displayInfo[0].value.split(" ")[0] == "Shallow" || displayInfo[0].value.split(" ")[0] == "Artificial" || displayInfo[0].value.split(" ")[0] == "Deep" ? (
+              <b className="selected_info_header">
+                Selected event:
+              </b>
+            ) : (displayInfo[0].value.split(" ")[0] == "Apollo" ? (
+                <b className="selected_info_header">
+                  Selected station:
+                </b>
+            ) : (<></>))
+            
+          ) : (<></>)
+        }
+        {
+          displayInfo.length != 0 ? (
             displayInfo?.map(attribute => (
               <p key={attribute.tag}><b>{attribute.tag}: </b>{attribute.value}</p>
             ))
-          }
-        </div>
+          ) : (
+              <>
+                <b className="selected_info_placeholder">No event selected</b>
+                <div className="selected_info_placeholder_items">
+                  <div className="selected_info_placeholder_icon">
+                    <Satellite size={18} />
+                  </div>
+                  <div className="selected_info_placeholder_icon">
+                    <Rocket size={18} />
+                  </div>
+                  <div className="selected_info_placeholder_icon">
+                    <Activity size={18} />
+                  </div>
+                  <div className="selected_info_placeholder_icon">
+                    <Disc size={18} />
+                  </div>
+                </div>
+              </>
+          )
+        }
+      </div>
+      <div className="contenedor_principal">
         <div className="mostrar_misiones" onClick={handleShowMissionsClick}>
           <p onClick={handleItemClick}>Show missions</p>
         </div>
