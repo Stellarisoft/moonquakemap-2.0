@@ -11,7 +11,7 @@ const Apollo15: React.FC = () => {
   let controls: OrbitControls | null = null; // Declaramos los controles como variable externa
 
   // Variable para controlar la posición Z de la cámara
-  const cameraZPosition = 25;
+  const cameraZPosition = 10;
 
   useEffect(() => {
     if (containerRef.current) {
@@ -31,6 +31,7 @@ const Apollo15: React.FC = () => {
 
         // Configurar la cámara
         camera.position.z = cameraZPosition;
+        camera.position.y = 7;
 
         // Ajustar la relación de aspecto de la cámara para que coincida con el nuevo tamaño del lienzo
         camera.aspect = 1; // Relación de aspecto 1:1 para mantener la proporción

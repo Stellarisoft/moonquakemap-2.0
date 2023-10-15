@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { deg_to_rad } from '../util/rad_deg';
 
 const Apollo14: React.FC = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -11,7 +12,7 @@ const Apollo14: React.FC = () => {
   let controls: OrbitControls | null = null; // Declaramos los controles como variable externa
 
   // Variable para controlar la posición Z de la cámara
-  const cameraZPosition = 25;
+  const cameraZPosition = 7;
 
   useEffect(() => {
     if (containerRef.current) {
@@ -28,9 +29,11 @@ const Apollo14: React.FC = () => {
 
         // Configurar la escala del modelo para hacerlo más pequeño (aproximadamente 100px)
         model.scale.set(1, 1, 1);
+        model.rotateY((-1) * deg_to_rad(90))
 
         // Configurar la cámara
         camera.position.z = cameraZPosition;
+        camera.position.y = 5;
 
         // Ajustar la relación de aspecto de la cámara para que coincida con el nuevo tamaño del lienzo
         camera.aspect = 1; // Relación de aspecto 1:1 para mantener la proporción
@@ -41,8 +44,8 @@ const Apollo14: React.FC = () => {
         controls.target.set(0, 0, 0); // Establece el punto hacia el que mira la cámara
 
         // Establecer límites de distancia de zoom
-        controls.minDistance = 12; // Establece la distancia mínima
-        controls.maxDistance = 50; // Establece la distancia máxima
+        controls.minDistance = 3; // Establece la distancia mínima
+        controls.maxDistance = 15; // Establece la distancia máxima
 
         controls.enablePan = false;
 

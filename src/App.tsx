@@ -1,14 +1,14 @@
 import React, { useMemo, useRef, useState } from "react";
 import Moon from "./components/moon";
 import Apollo11 from "./components/apollo11";
-import Apollo16 from "./components/apollo16";
+import Apollo16 from "./components/apollo1216";
 import "./App.css";
 import { Satellite, Disc, Globe, Sliders, Rocket, Activity, RefreshCwOff, DraftingCompass, Map, Waves, Shell, Circle, Minus, Mountain, MountainSnow, TowerControl, CircleEllipsis } from "lucide-react";
 import StellarisoftImage from "./assets/stellarisoft.png";
 import { info_attribute, station, sm, ai, dm } from "./util/types";
 import Apollo15 from "./components/apollo15";
 import Apollo14 from "./components/apollo14";
-import Apollo1216 from "./components/apollo16";
+import Apollo1216 from "./components/apollo1216";
 
 // Define componentes para cada misión
 const MissionInfo1 = () => (

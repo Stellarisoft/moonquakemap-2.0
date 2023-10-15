@@ -11,7 +11,7 @@ const Apollo11: React.FC = () => {
   let controls: OrbitControls | null = null; // Declaramos los controles como variable externa
 
   // Variable para controlar la posición Z de la cámara
-  const cameraZPosition = 25;
+  const cameraZPosition = 15;
 
   useEffect(() => {
     if (containerRef.current) {
