@@ -61,6 +61,31 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedMission, setSelectedMission] = useState<any | null>(null);
 
+  // Filter limits
+  const [fromDate, setFromDate] = useState("1969-07-21T00:00")
+  const [toDate, setToDate] = useState("1977-07-30T23:59")
+
+  const updateFromDate = (e) => {
+    setFromDate(e.target.value)
+  }
+
+  const updateToDate = (e) => {
+    setToDate(e.target.value)
+  }
+
+  const [dateLimitMin, setDateLimitMin] = useState(fromDate)
+  const [dateLimitMax, setDateLimitMax] = useState(toDate)
+
+  const updateDateLimits = () => {
+    const newLimitMin = fromDate
+    const newLimitMax = toDate
+    setDateLimitMin(newLimitMin)
+    setDateLimitMax(newLimitMax)
+    console.log((new Date(newLimitMin)).getTime())
+    console.log((new Date(newLimitMax)).getTime())
+
+  }
+
   // Data
   let stations: station[]
   let sm: sm[]
@@ -68,7 +93,6 @@ function App() {
   let dm: dm[]
 
   const fetch_data = async () => {
-    console.log("FETCHED from App.tsx")
     await fetch(`https://moonquakemap-2-0-backend.vercel.app/data/stations`)
       .then(res => res.json())
       .then((data) => {
@@ -110,6 +134,14 @@ function App() {
     }
   }
 
+  const parseTime = (num: number) => {
+    if (num.toString().length == 1) {
+      return "0" + num.toString()
+    } else {
+      return num.toString()
+    }
+  }
+  
   const resetDisplayInfo = (type: string, id: string) => {
     if (type == "station") {
       const attributes: info_attribute[] = []
@@ -129,7 +161,7 @@ function App() {
       const sm_i: sm | undefined = sm.find(i => i.id == id)
       attributes.push({ tag: "Type", value: sm_i?.type })
       attributes.push({
-        tag: "Date", value: sm_i?.year.toString() + "-" + sm_i?.month.toString() + "-" + sm_i?.day.toString() + "  " + sm_i?.h.toString() + ":" + sm_i?.m.toString() + ":" + sm_i?.s.toString()
+        tag: "Date", value: sm_i?.year.toString() + "-" + sm_i?.month.toString() + "-" + sm_i?.day.toString() + "  " + parseTime(sm_i?.h) + ":" + parseTime(sm_i?.m) + ":" + parseTime(sm_i?.s)
       })
       attributes.push({ tag: "Lat.", value: parseLat(sm_i?.lat.toString()) })
       attributes.push({ tag: "Long.", value: parseLong(sm_i?.long.toString()) })
@@ -140,7 +172,7 @@ function App() {
       const ai_i: ai | undefined = ai.find(i => i.id == id)
       attributes.push({ tag: "Type", value: ai_i?.type })
       attributes.push({
-        tag: "Date", value: ai_i?.year.toString() + "-" + ai_i?.month.toString() + "-" + ai_i?.day.toString() + "  " + ai_i?.h.toString() + ":" + ai_i?.m.toString() + ":" + ai_i?.s.toString()
+        tag: "Date", value: ai_i?.year.toString() + "-" + ai_i?.month.toString() + "-" + ai_i?.day.toString() + "  " + parseTime(ai_i?.h) + ":" + parseTime(ai_i?.m) + ":" + parseTime(ai_i?.s)
       })
       attributes.push({ tag: "Lat.", value: parseLat(ai_i?.lat.toString()) })
       attributes.push({ tag: "Long.", value: parseLong(ai_i?.long.toString()) })
@@ -151,7 +183,7 @@ function App() {
       const dm_i: dm | undefined = dm.find(i => i.id == id)
       attributes.push({ tag: "Type", value: dm_i?.type })
       attributes.push({
-        tag: "Date", value: dm_i?.year.toString() + "-" + dm_i?.month.toString() + "-" + dm_i?.day.toString() + "  " + dm_i?.h.toString() + ":" + dm_i?.m.toString() + ":" + dm_i?.s.toString()
+        tag: "Date", value: dm_i?.year.toString() + "-" + dm_i?.month.toString() + "-" + dm_i?.day.toString() + "  " + parseTime(dm_i?.h) + ":" + parseTime(dm_i?.m) + ":" + parseTime(dm_i?.s)
       })
       attributes.push({ tag: "Lat.", value: parseLat(dm_i?.lat.toString()) })
       attributes.push({ tag: "Long.", value: parseLong(dm_i?.long.toString()) })
@@ -331,6 +363,36 @@ function App() {
           )
         }
       </div>
+
+      <div className="filtro">
+        <b>Date filter</b>
+        <div className="dateInput-container">
+          <b className="dateInput-label">From</b>
+          <input
+            type="datetime-local"
+            id="from_date"
+            className="dateInput"
+            value={fromDate}
+            min="1969-07-21T00:00"
+            max="1977-07-30T23:59"
+            onChange={updateFromDate}></input>
+        </div>
+        <div className="dateInput-container">
+          <b className="dateInput-label">To</b>
+          <input
+            type="datetime-local"
+            id="to_date"
+            className="dateInput"
+            value={toDate}
+            min="1969-07-21T00:00"
+            max="1977-07-30T23:59"
+            onChange={updateToDate} ></input>
+        </div>
+        <div>
+          <button id="ApplyDateFilter" onClick={updateDateLimits}>Apply</button>
+        </div>
+      </div>
+
       <div className="contenedor_principal">
         <div className="mostrar_misiones" onClick={handleShowMissionsClick}>
           <p onClick={handleItemClick}>Show missions</p>
@@ -520,7 +582,7 @@ function App() {
         </div>
       )}
 
-      <Moon resetDisplayInfo={resetDisplayInfo} isModalOpen={isModalOpen} />
+      <Moon resetDisplayInfo={resetDisplayInfo} isModalOpen={isModalOpen} dateLimits={[dateLimitMin, dateLimitMax]} />
     </>
   );
 }

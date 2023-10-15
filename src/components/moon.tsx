@@ -14,18 +14,20 @@ import { info_attribute } from "../util/types";
 import "./moon.css"
 import { mx_fractal_noise_vec4 } from 'three/examples/jsm/nodes/Nodes.js';
 
-const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
+const Moon = ({ resetDisplayInfo, dateLimits }: { resetDisplayInfo: Function, dateLimits: string[] }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   let controls: OrbitControls | null = null; // Declaramos los controles como variable externa
 
-
   // Variable para controlar la posición Z de la cámara
   const cameraZPosition = 25;
 
   useEffect(() => {
+
+    const dateLimitMin = new Date(dateLimits[0])
+    const dateLimitMax = new Date(dateLimits[1])
 
     let stations: station[]
     let sm: sm[]
@@ -33,7 +35,6 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
     let dm: dm[]
 
     const fetch_data = async () => {
-      console.log("FETCHED from moon.tsx")
       await fetch(`https://moonquakemap-2-0-backend.vercel.app/data/stations`)
         .then(res => res.json())
         .then((data) => {
@@ -175,6 +176,33 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
         scene.add(latLongMesh);
 
         // Renders the stations.
+        let stationsVisible = false
+
+        document.getElementById("Stations").addEventListener("click", function () {
+          stationsVisible = !stationsVisible
+        });
+
+        const checkStationVisibility = (station, stationStartDate, stationEndDate, isVisible) => {
+          let fromDate = new Date(document.getElementById("from_date").value)
+          let toDate = new Date(document.getElementById("to_date").value)
+
+          console.log(station.userData.mission)
+          console.log(stationStartDate.getTime())
+          console.log(dateLimitMin.getTime())
+
+          if (isVisible) {
+            if ((stationEndDate.getTime() >= fromDate.getTime()) && (stationStartDate.getTime() <= toDate.getTime())) {
+              console.log("In range!!!")
+              station.visible = true;
+            } else {
+              console.log("NOT in range!!!")
+              station.visible = false;
+            }
+          } else {
+            station.visible = false
+          }
+        }
+
         for (let i = 0; i < stations.length; i++) {
           const ori_color = 0x0065ff
           const selected_color = 0xa5c8ff
@@ -208,14 +236,49 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
           station_coor.add(coor_edges);
           scene.add(station_coor)
           station_coor.visible = false
+          document.getElementById("Stations").addEventListener("click", function () {
+            checkStationVisibility(station_coor, stationStartDate, stationEndDate, stationsVisible)
+          });
+          const stationStartDate = new Date(station_coor.userData.startDate)
+          const stationEndDate = new Date(station_coor.userData.endDate)
+          document.getElementById("ApplyDateFilter").addEventListener("click", function () {
+            checkStationVisibility(station_coor, stationStartDate, stationEndDate, stationsVisible)
+          });
         }
-        document.getElementById("Stations").addEventListener("click", function () {
-          for (const child of scene.children) {
-            if (child.userData.station) { child.visible = !child.visible }
-          }
-        });
+        
 
         // Renders shallow moonquakes (SM) and artificial impacts (AI).
+        let smVisible = false
+
+        document.getElementById("SMToggle").addEventListener("click", function () {
+          smVisible = !smVisible
+        });
+
+        const checkEventVisibility = (event, eventDate, isVisible) => {
+          let fromDate = new Date(document.getElementById("from_date").value)
+          let toDate = new Date(document.getElementById("to_date").value)
+
+          if (isVisible) {
+            if ((eventDate.getTime() >= fromDate.getTime()) && (eventDate.getTime() <= toDate.getTime())) {
+              console.log("In range!!!")
+              event.visible = true;
+            } else {
+              console.log("NOT in range!!!")
+              event.visible = false;
+            }
+          } else {
+            event.visible = false
+          }
+        }
+
+        const parseTime = (num: number) => {
+          if (num.toString().length == 1) {
+            return "0" + num.toString()
+          } else {
+            return num.toString()
+          }
+        }
+
         for (let i = 0; i < sm.length; i++) {
           const ori_color = 0xFEAB03
           const selected_color = 0xffe6b3
@@ -225,7 +288,7 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
           sm_coor.userData.sm = true
           sm_coor.userData.id = sm[i].id
           sm_coor.userData.type = sm[i].type
-          sm_coor.userData.date = sm[i].year.toString() + "-" + sm[i].month.toString() + "-" + sm[i].day.toString() + "  " + sm[i].h.toString() + ":" + sm[i].m.toString() + ":" + sm[i].s.toString()
+          sm_coor.userData.date = sm[i].year.toString() + "-" + sm[i].month.toString() + "-" + sm[i].day.toString() + "  " + parseTime(sm[i].h) + ":" + parseTime(sm[i].m) + ":" + parseTime(sm[i].s)
           sm_coor.userData.mag = sm[i].mag
           sm_coor.userData.clickable = true
           sm_coor.userData.ori_color = ori_color
@@ -249,11 +312,19 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
           );
           coor_edges.userData.outer_edges = true
           sm_coor.add(coor_edges);
+          document.getElementById("SMToggle").addEventListener("click", function () {
+            checkEventVisibility(sm_coor, eventDate, smVisible)
+          });
+          const eventDate = new Date(sm_coor.userData.date)
+          document.getElementById("ApplyDateFilter").addEventListener("click", function () {
+            checkEventVisibility(sm_coor, eventDate, smVisible)
+          });
         }
-        document.getElementById("SMToggle").addEventListener("click", function () {
-          for (const child of scene.children) {
-            if (child.userData.sm) { child.visible = !child.visible }
-          }
+
+        let aiVisible = false
+
+        document.getElementById("AIToggle").addEventListener("click", function () {
+          aiVisible = !aiVisible
         });
 
         for (let i = 0; i < ai.length; i++) {
@@ -266,7 +337,7 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
           ai_coor.userData.ai = true
           ai_coor.userData.id = ai[i].id
           ai_coor.userData.type = ai[i].type
-          ai_coor.userData.date = ai[i].year.toString() + "-" + ai[i].month.toString() + "-" + ai[i].day.toString() + "  " + ai[i].h.toString() + ":" + ai[i].m.toString() + ":" + ai[i].s.toString()
+          ai_coor.userData.date = ai[i].year.toString() + "-" + ai[i].month.toString() + "-" + ai[i].day.toString() + "  " + parseTime(ai[i].h) + ":" + parseTime(ai[i].m) + ":" + parseTime(Math.round(ai[i].s))
           ai_coor.userData.mag = ai[i].mag
           ai_coor.userData.clickable = true
           ai_coor.userData.ori_color = ori_color
@@ -289,15 +360,21 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
             new THREE.LineBasicMaterial({ color: edges_color, linewidth: 0.5 })
           );
           ai_coor.add(coor_edges);
+          document.getElementById("AIToggle").addEventListener("click", function () {
+            checkEventVisibility(ai_coor, eventDate, aiVisible)
+          });
+          const eventDate = new Date(ai_coor.userData.date)
+          console.log(ai_coor.userData.date)
+          document.getElementById("ApplyDateFilter").addEventListener("click", function () {
+            checkEventVisibility(ai_coor, eventDate, aiVisible)
+          });
         }
-        document.getElementById("AIToggle").addEventListener("click", function () {
-          for (const child of scene.children) {
-            if (child.userData.ai) { child.visible = !child.visible }
-          }
-        });
-
-        // Renders deep moonquakes (DM) in DM mode.
+        
         let dmVisible = false
+
+        document.getElementById("DMToggle").addEventListener("click", function () {
+          dmVisible = !dmVisible
+        });
 
         for (let i = 0; i < dm.length; i++) {
           const ori_color = 0xcb1111
@@ -309,7 +386,7 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
           dm_coor.userData.dm = true
           dm_coor.userData.id = dm[i].id
           dm_coor.userData.type = dm[i].type
-          dm_coor.userData.date = dm[i].year.toString() + "-" + dm[i].month.toString() + "-" + dm[i].day.toString() + "  " + dm[i].h.toString() + ":" + dm[i].m.toString() + ":" + dm[i].s.toString()
+          dm_coor.userData.date = dm[i].year.toString() + "-" + dm[i].month.toString() + "-" + dm[i].day.toString() + "  " + parseTime(dm[i].h) + ":" + parseTime(dm[i].m) + ":" + parseTime(Math.round(dm[i].s))
           dm_coor.userData.depth = dm[i].depth
           dm_coor.userData.clickable = true
           dm_coor.userData.ori_color = ori_color
@@ -332,13 +409,15 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
             new THREE.LineBasicMaterial({ color: edges_color, linewidth: 0.5 })
           );
           dm_coor.add(coor_edges);
+          document.getElementById("DMToggle").addEventListener("click", function () {
+            checkEventVisibility(dm_coor, eventDate, dmVisible)
+          });
+          const eventDate = new Date(dm_coor.userData.date)
+          console.log(dm_coor.userData.date)
+          document.getElementById("ApplyDateFilter").addEventListener("click", function () {
+            checkEventVisibility(dm_coor, eventDate, dmVisible)
+          });
         }
-        document.getElementById("DMToggle").addEventListener("click", function () {
-          dmVisible = !dmVisible
-          for (const child of scene.children) {
-            if (child.userData.dm) { child.visible = !child.visible }
-          }
-        });
 
         // Renders mantle mesh
         const mantleGeo = new THREE.SphereGeometry(3.3786, 60, 30);
@@ -893,6 +972,7 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
         createCratersRegionLabel("Fra Mauro", -6.0, -17.0)
         createCratersRegionLabel("Humboldt", -27.02, 80.96)
         createCratersRegionLabel("Janssen", -44.96, 40.82)
+        createCratersRegionLabel("Kepler", 8.1, -38.0)
         createCratersRegionLabel("Langrenus", -8.9, 60.9)
         createCratersRegionLabel("Longomontanus", -49.5, -21.7)
         createCratersRegionLabel("Maginus", -50.0, -6.2)
@@ -1144,9 +1224,6 @@ const Moon = ({ resetDisplayInfo }: { resetDisplayInfo: Function }) => {
               selector_ring.userData.selectedType = "dm"
             }
           }
-
-          console.log(clickIntersections)
-
         })
         
 
