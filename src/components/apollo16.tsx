@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-const Apollo16: React.FC = () => {
+const Apollo1216: React.FC = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(75, 200 / window.innerHeight, 0.1, 1000);
@@ -11,7 +11,7 @@ const Apollo16: React.FC = () => {
   let controls: OrbitControls | null = null; // Declaramos los controles como variable externa
 
   // Variable para controlar la posición Z de la cámara
-  const cameraZPosition = 25;
+  const cameraZPosition = 16;
 
   useEffect(() => {
     if (containerRef.current) {
@@ -22,7 +22,7 @@ const Apollo16: React.FC = () => {
       renderer.setSize(300, 300 ); // Establece el ancho y alto deseado del lienzo de renderizado
 
       const loader = new GLTFLoader();
-      loader.load('/src/assets/apollo16.glb', (gltf) => {
+      loader.load('/src/assets/apollo1216.glb', (gltf) => {
         const model = gltf.scene;
         scene.add(model);
 
@@ -31,6 +31,8 @@ const Apollo16: React.FC = () => {
 
         // Configurar la cámara
         camera.position.z = cameraZPosition;
+        camera.position.y = 8;
+
 
         // Ajustar la relación de aspecto de la cámara para que coincida con el nuevo tamaño del lienzo
         camera.aspect = 1; // Relación de aspecto 1:1 para mantener la proporción
@@ -83,4 +85,4 @@ const Apollo16: React.FC = () => {
   return <div ref={containerRef}></div>;
 };
 
-export default Apollo16;
+export default Apollo1216;

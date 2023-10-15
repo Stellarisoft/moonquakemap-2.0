@@ -6,6 +6,9 @@ import "./App.css";
 import { Satellite, Disc, Globe, Sliders, Rocket, Activity, RefreshCwOff, DraftingCompass, Map, Waves, Shell, Circle, Minus, Mountain, MountainSnow, TowerControl, CircleEllipsis } from "lucide-react";
 import StellarisoftImage from "./assets/stellarisoft.png";
 import { info_attribute, station, sm, ai, dm } from "./util/types";
+import Apollo15 from "./components/apollo15";
+import Apollo14 from "./components/apollo14";
+import Apollo1216 from "./components/apollo16";
 
 // Define componentes para cada misión
 const MissionInfo1 = () => (
@@ -20,30 +23,42 @@ const MissionInfo1 = () => (
 );
 
 const MissionInfo2 = () => (
-  <div>
-    <p>Información personalizada para Apollo 12.</p>
-    {/* Agrega aquí la estructura y contenido específico de Apollo 12 */}
+  <div className="modal-info">
+    <div>
+      <Apollo1216 />
+    </div>
+    <div>
+      <p>The Apollo 12 Passive Seismic Experiment was an instrument that detected vibrations and tilts of the lunar surface. It used four triaxial seismometers to measure ground motion from lunar earthquakes, meteorites, and artificial impacts. The data were used to study the structure, state and activity of the Moon. The experiment was powered by a radioisotope thermoelectric generator.</p>
+    </div>
   </div>
 );
 
 const MissionInfo3 = () => (
-  <div>
-    <p>Información personalizada para Apollo 14.</p>
-    {/* Agrega aquí la estructura y contenido específico de Apollo 14 */}
+  <div className="modal-info">
+    <div>
+      <Apollo14 />
+    </div>
+    <div>
+      <p>The Apollo 14 Active Seismic Experiment created artificial seismic waves on the Moon with controlled explosions. It used a thumper and mortar charges to generate the impacts. He measured the waves with geophones on a 90-meter line. The data revealed that the Moon has a fractured crust from meteorites and a low seismic velocity.</p>
+    </div>
   </div>
 );
 
 const MissionInfo4 = () => (
-  <div>
-    <p>Información personalizada para Apollo 15.</p>
-    {/* Agrega aquí la estructura y contenido específico de Apollo 15 */}
+  <div className="modal-info">
+    <div>
+      <Apollo15 />
+    </div>
+    <div>
+      <p>The Heat Flux Experiment (HFE) measured heat loss from the interior of the Moon to the surface. surface. It used sensors to measure temperature at different depths. The data showed that the Moon has a low heat flux, indicating a cold, dry interior. The experiment helped understand the thermal history and geological activity of the Moon.</p>
+    </div>
   </div>
 );
 
 const MissionInfo5 = () => (
   <div className="modal-info">
     <div>
-      <Apollo16 />
+      <Apollo1216 />
     </div>
     <div>
       <p>The Apollo 16 Passive Seismic Experiment was a seismometer that studied lunar earthquakes and the internal structure of the Moon. It recorded more than 10,000 earthquakes and 2,000 meteorite impacts in eight years. The largest impact occurred on the far side of the Moon near Mare Moscoviense. The experiment revealed that the Moon has a small, cold and dry core.</p>
@@ -400,8 +415,9 @@ function App() {
           </div>
 
           <div className="filter-buttons">
-            <button id="ApplyDateFilter" onClick={updateDateLimits}>Apply</button>
-            <button id="ResetDateFilter" onClick={resetDateLimits}>Reset</button>
+            <a id="ApplyDateFilter" onClick={updateDateLimits}>Apply</a>
+            <a id="ResetDateFilter" onClick={resetDateLimits}>Reset</a>
+            <a id="rawData" href="https://pds-geosciences.wustl.edu/missions/apollo/seismic_event_catalog.htm" target="_blank" >Raw data</a>
           </div>
         </div>
       </div>
