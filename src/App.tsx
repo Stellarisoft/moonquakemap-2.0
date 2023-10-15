@@ -84,8 +84,6 @@ function App() {
     const newLimitMax = toDate
     setDateLimitMin(newLimitMin)
     setDateLimitMax(newLimitMax)
-    console.log((new Date(newLimitMin)).getTime())
-    console.log((new Date(newLimitMax)).getTime())
   }
 
   const resetDateLimits = () => {

@@ -188,13 +188,11 @@ const Moon = ({ resetDisplayInfo, dateLimits }: { resetDisplayInfo: Function, da
 
           if (isVisible) {
             if ((stationEndDate.getTime() >= fromDate.getTime()) && (stationStartDate.getTime() <= toDate.getTime())) {
-              console.log("In range!!!")
               station.visible = true;
               if (station.userData.selected) {
                 selector_ring.visible = true
               }
             } else {
-              console.log("NOT in range!!!")
               station.visible = false;
               if (station.userData.selected) {
                 selector_ring.visible = false
@@ -282,13 +280,11 @@ const Moon = ({ resetDisplayInfo, dateLimits }: { resetDisplayInfo: Function, da
 
           if (isVisible) {
             if ((eventDate.getTime() >= fromDate.getTime()) && (eventDate.getTime() <= toDate.getTime())) {
-              console.log("In range!!!")
               event.visible = true;
               if (event.userData.selected) {
                 selector_ring.visible = true
               }
             } else {
-              console.log("NOT in range!!!")
               event.visible = false;
               if (event.userData.selected) {
                 selector_ring.visible = false
@@ -398,7 +394,6 @@ const Moon = ({ resetDisplayInfo, dateLimits }: { resetDisplayInfo: Function, da
             checkEventVisibility(ai_coor, eventDate, aiVisible)
           });
           const eventDate = new Date(ai_coor.userData.date)
-          console.log(ai_coor.userData.date)
           document.getElementById("ApplyDateFilter").addEventListener("click", function () {
             checkEventVisibility(ai_coor, eventDate, aiVisible)
           });
@@ -450,7 +445,6 @@ const Moon = ({ resetDisplayInfo, dateLimits }: { resetDisplayInfo: Function, da
             checkEventVisibility(dm_coor, eventDate, dmVisible)
           });
           const eventDate = new Date(dm_coor.userData.date)
-          console.log(dm_coor.userData.date)
           document.getElementById("ApplyDateFilter").addEventListener("click", function () {
             checkEventVisibility(dm_coor, eventDate, dmVisible)
           });
