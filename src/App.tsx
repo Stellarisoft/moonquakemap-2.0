@@ -61,9 +61,12 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedMission, setSelectedMission] = useState<any | null>(null);
 
+  const oriMinDate = "1969-07-21T00:00"
+  const oriMaxDate = "1977-07-30T23:59"
+
   // Filter limits
-  const [fromDate, setFromDate] = useState("1969-07-21T00:00")
-  const [toDate, setToDate] = useState("1977-07-30T23:59")
+  const [fromDate, setFromDate] = useState(oriMinDate)
+  const [toDate, setToDate] = useState(oriMaxDate)
 
   const updateFromDate = (e) => {
     setFromDate(e.target.value)
@@ -83,7 +86,13 @@ function App() {
     setDateLimitMax(newLimitMax)
     console.log((new Date(newLimitMin)).getTime())
     console.log((new Date(newLimitMax)).getTime())
+  }
 
+  const resetDateLimits = () => {
+    setDateLimitMin(oriMinDate)
+    setFromDate(oriMinDate)
+    setDateLimitMax(oriMaxDate)
+    setToDate(oriMaxDate)
   }
 
   // Data
@@ -365,31 +374,37 @@ function App() {
       </div>
 
       <div className="filtro">
-        <b>Date filter</b>
-        <div className="dateInput-container">
-          <b className="dateInput-label">From</b>
-          <input
-            type="datetime-local"
-            id="from_date"
-            className="dateInput"
-            value={fromDate}
-            min="1969-07-21T00:00"
-            max="1977-07-30T23:59"
-            onChange={updateFromDate}></input>
-        </div>
-        <div className="dateInput-container">
-          <b className="dateInput-label">To</b>
-          <input
-            type="datetime-local"
-            id="to_date"
-            className="dateInput"
-            value={toDate}
-            min="1969-07-21T00:00"
-            max="1977-07-30T23:59"
-            onChange={updateToDate} ></input>
-        </div>
-        <div>
-          <button id="ApplyDateFilter" onClick={updateDateLimits}>Apply</button>
+        <div className="filter-header">Date filter</div>
+        <div className="filtro-contenedor-principal">
+          <div className="filter-inputs">
+            <div className="dateInput-container">
+              <b className="dateInput-label">From</b>
+              <input
+                type="datetime-local"
+                id="from_date"
+                className="dateInput"
+                value={fromDate}
+                min="1969-07-21T00:00"
+                max="1977-07-30T23:59"
+                onChange={updateFromDate}></input>
+            </div>
+            <div className="dateInput-container">
+              <b className="dateInput-label">To</b>
+              <input
+                type="datetime-local"
+                id="to_date"
+                className="dateInput"
+                value={toDate}
+                min="1969-07-21T00:00"
+                max="1977-07-30T23:59"
+                onChange={updateToDate} ></input>
+            </div>
+          </div>
+
+          <div className="filter-buttons">
+            <button id="ApplyDateFilter" onClick={updateDateLimits}>Apply</button>
+            <button id="ResetDateFilter" onClick={resetDateLimits}>Reset</button>
+          </div>
         </div>
       </div>
 

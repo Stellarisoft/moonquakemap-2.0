@@ -391,3 +391,75 @@
   padding: 12px;
   border-radius: 5px;
 }
+
+.filter-header {
+  margin-bottom: 5px;
+  font-size: 18px;
+  user-select: none;
+  font-weight: 700;
+}
+
+.filtro-contenedor-principal {
+  display: flex;
+}
+
+.filter-contenedor {
+  display: flex;
+  flex-direction: column;
+}
+
+.dateInput-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.dateInput-label {
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.dateInput-container input {
+  background-color: rgba(34, 34, 34, 0.8);
+  color: #d9d9d9;
+  padding: 5px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: none;
+}
+
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+.filter-buttons {
+  display: flex;
+  flex-direction: column;
+  margin-left: 15px;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.filter-buttons button {
+  background-color: rgba(15, 15, 15, 0.8);
+  color: #d9d9d9;
+  font-weight: 600;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 18px;
+  cursor: pointer;
+}
+
+.filter-buttons button:hover {
+  background-color: rgb(48,
+      48,
+      48,
+      0.8);
+  /* Cambia el color de fondo al pasar el mouse */
+  border-radius: 5px;
+  color: white;
+}
+
+.filter-buttons button:active {
+  background-color: rgba(83, 83, 83, 0.8);
+  transform: translateY(1px);
+}

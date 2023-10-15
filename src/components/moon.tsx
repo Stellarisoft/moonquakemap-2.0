@@ -186,20 +186,39 @@ const Moon = ({ resetDisplayInfo, dateLimits }: { resetDisplayInfo: Function, da
           let fromDate = new Date(document.getElementById("from_date").value)
           let toDate = new Date(document.getElementById("to_date").value)
 
-          console.log(station.userData.mission)
-          console.log(stationStartDate.getTime())
-          console.log(dateLimitMin.getTime())
-
           if (isVisible) {
             if ((stationEndDate.getTime() >= fromDate.getTime()) && (stationStartDate.getTime() <= toDate.getTime())) {
               console.log("In range!!!")
               station.visible = true;
+              if (station.userData.selected) {
+                selector_ring.visible = true
+              }
             } else {
               console.log("NOT in range!!!")
               station.visible = false;
+              if (station.userData.selected) {
+                selector_ring.visible = false
+              }
             }
           } else {
             station.visible = false
+            if (station.userData.selected) {
+              selector_ring.visible = false
+            }
+          }
+        }
+
+        const resetEventVisibility = (event, isVisible) => {
+          if (isVisible) {
+            event.visible = true;
+            if (event.userData.selected) {
+              selector_ring.visible = true
+            }
+          } else {
+            event.visible = false;
+            if (event.userData.selected) {
+              selector_ring.visible = false
+            }
           }
         }
 
@@ -244,6 +263,9 @@ const Moon = ({ resetDisplayInfo, dateLimits }: { resetDisplayInfo: Function, da
           document.getElementById("ApplyDateFilter").addEventListener("click", function () {
             checkStationVisibility(station_coor, stationStartDate, stationEndDate, stationsVisible)
           });
+          document.getElementById("ResetDateFilter").addEventListener("click", function () {
+            resetEventVisibility(station_coor, stationsVisible)
+          });
         }
         
 
@@ -262,12 +284,21 @@ const Moon = ({ resetDisplayInfo, dateLimits }: { resetDisplayInfo: Function, da
             if ((eventDate.getTime() >= fromDate.getTime()) && (eventDate.getTime() <= toDate.getTime())) {
               console.log("In range!!!")
               event.visible = true;
+              if (event.userData.selected) {
+                selector_ring.visible = true
+              }
             } else {
               console.log("NOT in range!!!")
               event.visible = false;
+              if (event.userData.selected) {
+                selector_ring.visible = false
+              }
             }
           } else {
             event.visible = false
+            if (event.userData.selected) {
+              selector_ring.visible = false
+            }
           }
         }
 
@@ -319,6 +350,9 @@ const Moon = ({ resetDisplayInfo, dateLimits }: { resetDisplayInfo: Function, da
           document.getElementById("ApplyDateFilter").addEventListener("click", function () {
             checkEventVisibility(sm_coor, eventDate, smVisible)
           });
+          document.getElementById("ResetDateFilter").addEventListener("click", function () {
+            resetEventVisibility(sm_coor, smVisible)
+          });
         }
 
         let aiVisible = false
@@ -368,6 +402,9 @@ const Moon = ({ resetDisplayInfo, dateLimits }: { resetDisplayInfo: Function, da
           document.getElementById("ApplyDateFilter").addEventListener("click", function () {
             checkEventVisibility(ai_coor, eventDate, aiVisible)
           });
+          document.getElementById("ResetDateFilter").addEventListener("click", function () {
+            resetEventVisibility(ai_coor, aiVisible)
+          });
         }
         
         let dmVisible = false
@@ -416,6 +453,9 @@ const Moon = ({ resetDisplayInfo, dateLimits }: { resetDisplayInfo: Function, da
           console.log(dm_coor.userData.date)
           document.getElementById("ApplyDateFilter").addEventListener("click", function () {
             checkEventVisibility(dm_coor, eventDate, dmVisible)
+          });
+          document.getElementById("ResetDateFilter").addEventListener("click", function () {
+            resetEventVisibility(dm_coor, dmVisible)
           });
         }
 
@@ -1180,6 +1220,7 @@ const Moon = ({ resetDisplayInfo, dateLimits }: { resetDisplayInfo: Function, da
           const clickIntersections = intersections.filter(intersect => intersect.object.userData.clickable && intersect.object.visible)
 
           if (clickIntersections.length !== 0) {
+            clickIntersections[0].object.userData.selected = true
             if (clickIntersections[0].object.userData.station) {
               resetDisplayInfo("station", clickIntersections[0].object.userData.id)
             } else if (clickIntersections[0].object.userData.sm) {
